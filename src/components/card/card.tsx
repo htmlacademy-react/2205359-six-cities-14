@@ -2,9 +2,10 @@ import { Offer } from '../../types/offer';
 
 export default function Card ({...offer}: Offer): JSX.Element {
   const isPremium = 'Premium';
+  const ratingPrecentage = (offer.rating * 100) / 5;
   return (
     <article className="cities__card place-card">
-      <div className="place-card__mark">
+      <div className={offer.isPremium ? 'place-card__mark' : ''}>
         <span>{offer.isPremium && isPremium}</span>
       </div>
       <div className="cities__image-wrapper place-card__image-wrapper">
@@ -40,14 +41,14 @@ export default function Card ({...offer}: Offer): JSX.Element {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: '80%' }} />
+            <span style={{ width: `${ratingPrecentage}%` }} />
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
           <a href="#">{offer.title}</a>
         </h2>
-        <p className="place-card__type">{offer.type}</p>
+        <p className="place-card__type">{`${offer.type[0].toUpperCase()}${offer.type.slice(1)}`}</p>
       </div>
     </article>
   );
