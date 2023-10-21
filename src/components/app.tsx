@@ -29,10 +29,10 @@ export default function App(): JSX.Element {
               </PrivateRoute>
             }
           />
-          <Route
-            path={AppRoute.Offer}
-            element={<Offer />}
-          />
+          <Route path={AppRoute.Offer}>
+            <Route index element={<Offer/>}/>
+            <Route path={AppRoute.OfferId} element={<Offer />}/>
+          </Route>
           <Route
             path={AppRoute.Error}
             element={<NotFound />}
