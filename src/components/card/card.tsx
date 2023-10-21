@@ -1,4 +1,6 @@
 import { Offer } from '../../types/offer';
+import {Link} from 'react-router-dom';
+import { AppRoute } from '../../const';
 
 export default function Card ({...offer}: Offer): JSX.Element {
   const isPremium = 'Premium';
@@ -9,7 +11,7 @@ export default function Card ({...offer}: Offer): JSX.Element {
         <span>{offer.isPremium && isPremium}</span>
       </div>
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="#">
+        <Link to={AppRoute.Offer}>
           <img
             className="place-card__image"
             src={offer.previewImage}
@@ -17,7 +19,7 @@ export default function Card ({...offer}: Offer): JSX.Element {
             height={200}
             alt="Place image"
           />
-        </a>
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
