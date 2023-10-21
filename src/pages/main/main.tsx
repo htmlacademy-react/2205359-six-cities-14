@@ -112,9 +112,7 @@ export default function MainPage (): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {
-                  getCards(CardOffer)
-                }
+                {getCards(CardOffer)}
               </div>
             </section>
             <div className="cities__right-section">
