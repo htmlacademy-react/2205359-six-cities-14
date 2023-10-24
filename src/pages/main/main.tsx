@@ -1,26 +1,15 @@
-import Card from '../../components/card/card';
+import { getCards } from '../../util/getCards';
+import { CardOffer } from '../../mocks/cardOffer';
+import Logo from '../../components/logo/logo';
 
-type MainPageProps = {
-  placesCount: number;
-  cardsCount: number;
-}
-
-export default function MainPage ({placesCount, cardsCount} : MainPageProps): JSX.Element {
+export default function MainPage (): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <a className="header__logo-link header__logo-link--active">
-                <img
-                  className="header__logo"
-                  src="img/logo.svg"
-                  alt="6 cities logo"
-                  width={81}
-                  height={41}
-                />
-              </a>
+              <Logo />
             </div>
             <nav className="header__nav">
               <ul className="header__nav-list">
@@ -88,7 +77,7 @@ export default function MainPage ({placesCount, cardsCount} : MainPageProps): JS
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{placesCount} places to stay in Amsterdam</b>
+              <b className="places__found">312 places to stay in Amsterdam</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -116,9 +105,7 @@ export default function MainPage ({placesCount, cardsCount} : MainPageProps): JS
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {
-                  Array.from({length: cardsCount}, (_, i: number):JSX.Element => <Card key={i}/>)
-                }
+                {getCards(CardOffer)}
               </div>
             </section>
             <div className="cities__right-section">
