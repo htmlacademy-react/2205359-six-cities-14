@@ -3,7 +3,7 @@ import {Navigate} from 'react-router-dom';
 import { AppRoute } from '../../const';
 import Logo from '../../components/logo/logo';
 import {useParams} from 'react-router-dom';
-import { OfferType } from '../../types/offer';
+import { OfferType } from '../../types/offer-type';
 import OfferImage from '../../components/offer-image/offer-image';
 import ReviewForm from '../../components/review-form/review-form';
 
@@ -18,7 +18,7 @@ export default function Offer ({offers} : OfferProps): JSX.Element {
     return <Navigate to={AppRoute.Error} />;
   }
   const isPremium = 'Premium';
-  const ratingPrecentage = Math.round((currentOffer.rating * 100) / 5);
+  const getRating = (rating: number) => Math.round((rating * 100) / 5);
 
   return (
     <div className="page">
@@ -78,7 +78,7 @@ export default function Offer ({offers} : OfferProps): JSX.Element {
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
-                  <span style={{ width: `${ratingPrecentage}%` }} />
+                  <span style={{ width: `${getRating(currentOffer.rating)}%` }} />
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="offer__rating-value rating__value">{currentOffer.rating}</span>
@@ -120,39 +120,37 @@ export default function Offer ({offers} : OfferProps): JSX.Element {
               </div>
               <section className="offer__reviews reviews">
                 <h2 className="reviews__title">
-              Reviews · <span className="reviews__amount">1</span>
+              Reviews · <span className="reviews__amount">{currentOffer.comments.length}</span>
                 </h2>
                 <ul className="reviews__list">
-                  <li className="reviews__item">
-                    <div className="reviews__user user">
-                      <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                        <img
-                          className="reviews__avatar user__avatar"
-                          src="img/avatar-max.jpg"
-                          width={54}
-                          height={54}
-                          alt="Reviews avatar"
-                        />
-                      </div>
-                      <span className="reviews__user-name">Max</span>
-                    </div>
-                    <div className="reviews__info">
-                      <div className="reviews__rating rating">
-                        <div className="reviews__stars rating__stars">
-                          <span style={{ width: '80%' }} />
-                          <span className="visually-hidden">Rating</span>
+                  {currentOffer.comments.map((comment) => (
+                    <li key={comment.id} className="reviews__item">
+                      <div className="reviews__user user">
+                        <div className="reviews__avatar-wrapper user__avatar-wrapper">
+                          <img
+                            className="reviews__avatar user__avatar"
+                            src={comment.user.avatarUrl}
+                            width={54}
+                            height={54}
+                            alt="Reviews avatar"
+                          />
                         </div>
+                        <span className="reviews__user-name">{comment.user.name}</span>
                       </div>
-                      <p className="reviews__text">
-                    A quiet cozy and picturesque that hides behind a a river by
-                    the unique lightness of Amsterdam. The building is green and
-                    from 18th century.
-                      </p>
-                      <time className="reviews__time" dateTime="2019-04-24">
-                    April 2019
-                      </time>
-                    </div>
-                  </li>
+                      <div className="reviews__info">
+                        <div className="reviews__rating rating">
+                          <div className="reviews__stars rating__stars">
+                            <span style={{ width: `${getRating(comment.rating)}%` }} />
+                            <span className="visually-hidden">Rating</span>
+                          </div>
+                        </div>
+                        <p className="reviews__text">{comment.comment}</p>
+                        <time className="reviews__time" dateTime="2019-04-24">
+                                      April 2019
+                        </time>
+                      </div>
+                    </li>
+                  ))}
                 </ul>
                 <ReviewForm />
               </section>

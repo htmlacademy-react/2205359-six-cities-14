@@ -1,5 +1,5 @@
 import CardList from '../../components/card-list/card-list';
-import { OfferType } from '../../types/offer';
+import { OfferType } from '../../types/offer-type';
 import Logo from '../../components/logo/logo';
 import CityFilters from '../../components/city-filters/city-filters';
 import MainNavigation from '../../components/main-navigation/main-navigation';

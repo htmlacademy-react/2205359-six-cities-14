@@ -1,6 +1,7 @@
 import { City } from './city';
 import { Host } from './host';
 import { Location } from './location';
+import { Comment } from './comment';
 
 export type OfferType = {
   bedrooms: number;
@@ -19,4 +20,5 @@ export type OfferType = {
   rating: number;
   title: string;
   type: string;
+  comments: Comment[];
 };

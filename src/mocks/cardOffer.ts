@@ -1,4 +1,4 @@
-import { OfferType } from '../types/offer';
+import { OfferType } from '../types/offer-type';
 
 export const CardOffer: OfferType[] = [
   {
@@ -17,7 +17,7 @@ export const CardOffer: OfferType[] = [
       'Breakfast'
     ],
     host: {
-      avatarUrl: 'img/apartment-01.jpg',
+      avatarUrl: 'img/avatar-angelina.jpg',
       id: 3,
       isPro: true,
       name: 'Angelina'
@@ -51,7 +51,33 @@ export const CardOffer: OfferType[] = [
     price: 120,
     rating: 4,
     title: 'Waterfront with extraordinary view',
-    type: 'apartment'
+    type: 'apartment',
+    comments: [
+      {
+        'id': 1,
+        'user': {
+          'id': 13,
+          'isPro': false,
+          'name': 'Zak',
+          'avatarUrl': 'https://14.react.pages.academy/static/avatar/4.jpg'
+        },
+        'rating': 2,
+        'comment': 'The house is very good, very happy, hygienic and simple living conditions around it are also very good. I hope to have the opportunity to come back. Thank you.',
+        'date': '2023-09-30T09:23:20.316Z'
+      },
+      {
+        'id': 2,
+        'user': {
+          'id': 15,
+          'isPro': false,
+          'name': 'Kendall',
+          'avatarUrl': 'https://14.react.pages.academy/static/avatar/6.jpg'
+        },
+        'rating': 3,
+        'comment': 'The house is very good, very happy, hygienic and simple living conditions around it are also very good. I hope to have the opportunity to come back. Thank you.',
+        'date': '2023-09-30T09:23:20.316Z'
+      }
+    ]
   },
   {
     bedrooms: 2,
@@ -70,7 +96,7 @@ export const CardOffer: OfferType[] = [
       'Washer'
     ],
     host: {
-      avatarUrl: 'img/1.png',
+      avatarUrl: 'img/avatar-angelina.jpg',
       id: 3,
       isPro: true,
       name: 'Angelina'
@@ -104,7 +130,33 @@ export const CardOffer: OfferType[] = [
     price: 80,
     rating: 2.5,
     title: 'House in countryside',
-    type: 'room'
+    type: 'room',
+    comments: [
+      {
+        'id': 1,
+        'user': {
+          'id': 13,
+          'isPro': false,
+          'name': 'Zak',
+          'avatarUrl': 'https://14.react.pages.academy/static/avatar/4.jpg'
+        },
+        'rating': 2,
+        'comment': 'The house is very good, very happy, hygienic and simple living conditions around it are also very good. I hope to have the opportunity to come back. Thank you.',
+        'date': '2023-09-30T09:23:20.316Z'
+      },
+      {
+        'id': 2,
+        'user': {
+          'id': 15,
+          'isPro': false,
+          'name': 'Kendall',
+          'avatarUrl': 'https://14.react.pages.academy/static/avatar/6.jpg'
+        },
+        'rating': 3,
+        'comment': 'The house is very good, very happy, hygienic and simple living conditions around it are also very good. I hope to have the opportunity to come back. Thank you.',
+        'date': '2023-09-30T09:23:20.316Z'
+      }
+    ]
   },
   {
     bedrooms: 3,
@@ -130,7 +182,7 @@ export const CardOffer: OfferType[] = [
       'Dishwasher'
     ],
     host: {
-      avatarUrl: 'img/1.png',
+      avatarUrl: 'img/avatar-angelina.jpg',
       id: 3,
       isPro: true,
       name: 'Angelina'
@@ -164,7 +216,33 @@ export const CardOffer: OfferType[] = [
     price: 132,
     rating: 4.9,
     title: 'Loft Studio in the Central Area',
-    type: 'apartment'
+    type: 'apartment',
+    comments: [
+      {
+        'id': 1,
+        'user': {
+          'id': 13,
+          'isPro': false,
+          'name': 'Zak',
+          'avatarUrl': 'https://14.react.pages.academy/static/avatar/4.jpg'
+        },
+        'rating': 2,
+        'comment': 'The house is very good, very happy, hygienic and simple living conditions around it are also very good. I hope to have the opportunity to come back. Thank you.',
+        'date': '2023-09-30T09:23:20.316Z'
+      },
+      {
+        'id': 2,
+        'user': {
+          'id': 15,
+          'isPro': false,
+          'name': 'Kendall',
+          'avatarUrl': 'https://14.react.pages.academy/static/avatar/6.jpg'
+        },
+        'rating': 3,
+        'comment': 'The house is very good, very happy, hygienic and simple living conditions around it are also very good. I hope to have the opportunity to come back. Thank you.',
+        'date': '2023-09-30T09:23:20.316Z'
+      }
+    ]
   },
   {
     bedrooms: 1,
@@ -184,7 +262,7 @@ export const CardOffer: OfferType[] = [
       'Air conditioning'
     ],
     host: {
-      avatarUrl: 'img/1.png',
+      avatarUrl: 'img/avatar-angelina.jpg',
       id: 3,
       isPro: true,
       name: 'Angelina'
@@ -218,7 +296,33 @@ export const CardOffer: OfferType[] = [
     price: 180,
     rating: 4,
     title: 'Nice, cozy, warm big bed apartment',
-    type: 'apartment'
+    type: 'apartment',
+    comments: [
+      {
+        'id': 1,
+        'user': {
+          'id': 13,
+          'isPro': false,
+          'name': 'Zak',
+          'avatarUrl': 'https://14.react.pages.academy/static/avatar/4.jpg'
+        },
+        'rating': 2,
+        'comment': 'The house is very good, very happy, hygienic and simple living conditions around it are also very good. I hope to have the opportunity to come back. Thank you.',
+        'date': '2023-09-30T09:23:20.316Z'
+      },
+      {
+        'id': 2,
+        'user': {
+          'id': 15,
+          'isPro': false,
+          'name': 'Kendall',
+          'avatarUrl': 'https://14.react.pages.academy/static/avatar/6.jpg'
+        },
+        'rating': 3,
+        'comment': 'The house is very good, very happy, hygienic and simple living conditions around it are also very good. I hope to have the opportunity to come back. Thank you.',
+        'date': '2023-09-30T09:23:20.316Z'
+      }
+    ]
   },
   {
     bedrooms: 5,
@@ -241,7 +345,7 @@ export const CardOffer: OfferType[] = [
       'Washer'
     ],
     host: {
-      avatarUrl: 'img/1.png',
+      avatarUrl: 'img/avatar-angelina.jpg',
       id: 3,
       isPro: true,
       name: 'Angelina'
@@ -275,6 +379,32 @@ export const CardOffer: OfferType[] = [
     price: 80,
     rating: 3.5,
     title: 'The house among olive',
-    type: 'room'
+    type: 'room',
+    comments: [
+      {
+        'id': 1,
+        'user': {
+          'id': 13,
+          'isPro': false,
+          'name': 'Zak',
+          'avatarUrl': 'https://14.react.pages.academy/static/avatar/4.jpg'
+        },
+        'rating': 2,
+        'comment': 'The house is very good, very happy, hygienic and simple living conditions around it are also very good. I hope to have the opportunity to come back. Thank you.',
+        'date': '2023-09-30T09:23:20.316Z'
+      },
+      {
+        'id': 2,
+        'user': {
+          'id': 15,
+          'isPro': false,
+          'name': 'Kendall',
+          'avatarUrl': 'https://14.react.pages.academy/static/avatar/6.jpg'
+        },
+        'rating': 3,
+        'comment': 'The house is very good, very happy, hygienic and simple living conditions around it are also very good. I hope to have the opportunity to come back. Thank you.',
+        'date': '2023-09-30T09:23:20.316Z'
+      }
+    ]
   }
 ];

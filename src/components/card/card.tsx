@@ -1,4 +1,4 @@
-import { OfferType } from '../../types/offer';
+import { OfferType } from '../../types/offer-type';
 import {Link} from 'react-router-dom';
 import { AppRoute } from '../../const';
 import {useState} from 'react';
