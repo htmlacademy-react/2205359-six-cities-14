@@ -1,18 +1,10 @@
+import { City } from './city';
+import { Host } from './host';
 import { Location } from './location';
 
-type Host = {
-  avatarUrl: string;
-  id: number;
-  isPro: boolean;
-  name: string;
-}
-
-export type Offer = {
+export type OfferType = {
   bedrooms: number;
-  city: {
-    location: Location;
-    name: string;
-  };
+  city: City;
   description: string;
   goods: string[];
   host: Host;
