@@ -408,3 +408,23 @@ export const CardOffer: OfferType[] = [
     ]
   }
 ];
+
+//      предварительно подготовим функцию-обработчик
+// const cb= (acc, user)=> {
+// 	if (!Object.hasOwn(acc, user.age)) {
+//     acc[user.age]= [];
+//   }
+//   acc[user.age].push(user.name);
+// return acc;   // обязательно вернуть!};
+
+//     Начальное значение аккумулятора – пустой объект
+
+// const usersByAge= users.reduce(cb, {});
+
+// CardOffer.reduce<{[key:string] : OfferType[]}>((acc, offer) => {
+//   if (!Object.hasOwn(acc, offer.city.name)) {
+//     acc[offer.city.name] = [];
+//   }
+//   acc[offer.city.name].push(offer);
+//   return acc;
+// }, {});

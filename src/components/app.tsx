@@ -16,7 +16,7 @@ export default function App(): JSX.Element {
       <BrowserRouter>
         <Routes>
           <Route path={AppRoute.Main} element={<MainPage data={CardOffer}/>} >
-            {CITIES.map((city) => (
+            {CITIES.map((city : string) => (
               <Route
                 key={city}
                 path={city}
@@ -33,7 +33,7 @@ export default function App(): JSX.Element {
             path={AppRoute.Favorites}
             element={
               <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-                <Favorites />
+                <Favorites offers={CardOffer} />
               </PrivateRoute>
             }
           />
