@@ -2,8 +2,7 @@ import { OfferType } from '../../types/offer-type';
 import Card from '../card/card';
 import {useState} from 'react';
 import Map from '../map/map';
-import { CITIES_MAP } from '../../const';
-import { City } from '../../types/city';
+import { CITIES_MAP } from '../../mocks/cities';
 
 type CardListProps = {
   offers: OfferType[];
@@ -14,7 +13,7 @@ export default function CardList ({offers}: CardListProps) {
   function handleCardHover(offerId: number | null) {
     setHoveredOfferId(offerId);
   }
-  const activeCity : City = CITIES_MAP.Amsterdam;
+  const activeCity = CITIES_MAP[0];
 
   return (
     <div className="cities__places-container container">
