@@ -51,7 +51,7 @@ export default function CityCards ({offers}: CardListProps) {
         </div>
       </section>
       <div className="cities__right-section">
-        <Map offers={offers} location={activeCity.location} specialOfferId={hoveredOfferId}/>
+        <Map offers={offers} location={activeCity.location} specialOfferId={hoveredOfferId} isMainPage/>
       </div>
     </div>
   );
