@@ -12,3 +12,7 @@ export const changeCity = createAction('changeCity', (value: string) => ({
 export const getOffers = createAction('getOffers', (value: OfferType[]) => ({
   payload: value,
 }));
+
+export const changeSortOption = createAction('changeSorting', (value: string) => ({
+  payload: value,
+}));

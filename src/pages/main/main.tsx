@@ -10,11 +10,20 @@ import { useEffect } from 'react';
 export default function MainPage (): JSX.Element {
   const navigate = useNavigate();
   const currentCity = useAppSelector((store) => store.city);
+  const currentSortOption = useAppSelector((store) => store.sortingOption);
   const currentCityOffers : OfferType[] = useAppSelector((store) => store.offers.filter((offer) => offer.city.name === currentCity));
 
   useEffect(()=> {
     navigate(`${currentCity}`);
   }, [currentCity, navigate]);
+
+  const sortingVariants : {[key:string]: OfferType[]} = {
+    'Popular': currentCityOffers,
+    'Price: low to high': [...currentCityOffers].sort((a, b) => a.price - b.price),
+    'Price: high to low': [...currentCityOffers].sort((a, b) => b.price - a.price),
+    'Top rated first': [...currentCityOffers].sort((a, b) => b.rating - a.rating),
+  };
+  const sortedOffers = sortingVariants[currentSortOption];
 
   return (
     <div className="page page--gray page--main">
@@ -36,7 +45,7 @@ export default function MainPage (): JSX.Element {
           </section>
         </div>
         <div className="cities">
-          <CityCards offers={currentCityOffers} activeCity={currentCity}/>
+          <CityCards offers={sortedOffers} activeCity={currentCity}/>
         </div>
       </main>
     </div>
