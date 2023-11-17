@@ -3,11 +3,19 @@ import { OfferType } from '../../types/offer-type';
 import Logo from '../../components/logo/logo';
 import CityFilters from '../../components/city-filters/city-filters';
 import MainNavigation from '../../components/main-navigation/main-navigation';
+import { useNavigate } from 'react-router-dom';
+import { useAppSelector} from '../../hooks/redux-hooks';
+import { useEffect } from 'react';
 
-type MainPageProps = {
-  data: OfferType[];
-}
-export default function MainPage ({data} : MainPageProps): JSX.Element {
+export default function MainPage (): JSX.Element {
+  const navigate = useNavigate();
+  const currentCity = useAppSelector((store) => store.city);
+  const currentCityOffers : OfferType[] = useAppSelector((store) => store.offers.filter((offer) => offer.city.name === currentCity));
+
+  useEffect(()=> {
+    navigate(`${currentCity}`);
+  }, [currentCity, navigate]);
+
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -28,7 +36,7 @@ export default function MainPage ({data} : MainPageProps): JSX.Element {
           </section>
         </div>
         <div className="cities">
-          <CityCards offers={data} />
+          <CityCards offers={currentCityOffers} activeCity={currentCity}/>
         </div>
       </main>
     </div>
