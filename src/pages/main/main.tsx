@@ -6,16 +6,21 @@ import MainNavigation from '../../components/main-navigation/main-navigation';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector} from '../../hooks/redux-hooks';
 import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import { DEFAULT_CITY } from '../../const';
 
 export default function MainPage (): JSX.Element {
   const navigate = useNavigate();
   const currentCity = useAppSelector((store) => store.city);
   const currentSortOption = useAppSelector((store) => store.sortingOption);
   const currentCityOffers : OfferType[] = useAppSelector((store) => store.offers.filter((offer) => offer.city.name === currentCity));
+  const location = useLocation().pathname.slice(1);
 
   useEffect(()=> {
-    navigate(`${currentCity}`);
-  }, [currentCity, navigate]);
+    if (!location) {
+      navigate(`${DEFAULT_CITY}`);
+    }
+  }, [location, navigate]);
 
   const sortingVariants : {[key:string]: OfferType[]} = {
     'Popular': currentCityOffers,
