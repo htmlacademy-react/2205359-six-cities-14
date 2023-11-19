@@ -10,6 +10,7 @@ import NotFound from '../pages/not-found/not-found';
 import { CardOffer } from '../mocks/cardOffer';
 import { CITIES } from '../const';
 import ScrollToTop from './scroll-top/scroll-top';
+import Spinner from './spinner/spinner';
 
 export default function App(): JSX.Element {
   return (
@@ -46,6 +47,7 @@ export default function App(): JSX.Element {
               path={AppRoute.Error}
               element={<NotFound />}
             />
+            <Route path='spinner' element={<Spinner />} />
           </Routes>
         </ScrollToTop>
       </BrowserRouter>
