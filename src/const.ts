@@ -2,6 +2,8 @@ export const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', '
 
 export const DEFAULT_CITY = 'Paris';
 
+export const TIMEOUT_SHOW_ERROR = 2000;
+
 export const enum Props {
   CardsCount = 5,
 }
@@ -19,4 +21,13 @@ export enum AuthorizationStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
+}
+
+export enum APIRoute {
+  Offers = '/offers',
+  Nearby = '/nearby',
+  Favorite = '/favorite',
+  Comments = '/comments',
+  Login = '/login',
+  Logout = '/logout'
 }

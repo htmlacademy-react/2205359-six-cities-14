@@ -1,8 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 import './action.ts';
 import { OfferType } from '../types/offer-type';
-import { CardOffer } from '../mocks/cardOffer';
-import { changeCity, changeSortOption, getOffers } from './action.ts';
+import { changeCity, changeSortOption, getOffers, requireAuthorization, setError, setOffersDataLoadingStatus } from './action.ts';
 import { DEFAULT_CITY } from '../const.ts';
 import { AuthorizationStatus } from '../const.ts';
 
@@ -11,13 +10,17 @@ type StateType = {
   offers: OfferType[];
   sortingOption: string;
   authorizationStatus: AuthorizationStatus;
+  error: string | null;
+  isOfferDataLoading: boolean;
 };
 
 const InitialState : StateType = {
   city: DEFAULT_CITY,
-  offers: CardOffer,
+  offers: [],
   sortingOption: 'Popular',
   authorizationStatus: AuthorizationStatus.Unknown,
+  error: null,
+  isOfferDataLoading: false,
 };
 
 export const reducer = createReducer(InitialState, (builder) => {
@@ -30,5 +33,14 @@ export const reducer = createReducer(InitialState, (builder) => {
     })
     .addCase(changeSortOption, (state, action) => {
       state.sortingOption = action.payload;
+    })
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
+    })
+    .addCase(setError, (state, action) => {
+      state.error = action.payload;
+    })
+    .addCase(setOffersDataLoadingStatus, (state, action) => {
+      state.isOfferDataLoading = action.payload;
     });
 });

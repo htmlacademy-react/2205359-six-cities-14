@@ -16,7 +16,7 @@ type OfferProps = {
 
 export default function Offer ({offers} : OfferProps): JSX.Element {
   const params = useParams();
-  const currentOffer = offers.find((el) => el.id === Number(params.id));
+  const currentOffer = offers.find((el) => el.id === params.id);
 
   if (!currentOffer) {
     return <Navigate to={AppRoute.Error} />;

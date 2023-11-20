@@ -8,4 +8,8 @@ export const getOffers = createAction<OfferType[]>('getOffers');
 
 export const changeSortOption = createAction<string>('changeSorting');
 
-export const requireAuthorization = createAction<AuthorizationStatus>('reqiireAuth');
+export const requireAuthorization = createAction<AuthorizationStatus>('requireAuth');
+
+export const setError = createAction<string | null>('setError');
+
+export const setOffersDataLoadingStatus = createAction<boolean>('setQuestionsDataLoadingStatus');

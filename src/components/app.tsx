@@ -2,6 +2,7 @@ import {Route, BrowserRouter, Routes} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../const';
 import PrivateRoute from './private-route/private-route';
 import {HelmetProvider} from 'react-helmet-async';
+import { useAppSelector } from '../hooks/redux-hooks';
 import MainPage from '../pages/main/main';
 import Login from '../pages/login/login';
 import Favorites from '../pages/favorites/favorites';
@@ -13,6 +14,14 @@ import ScrollToTop from './scroll-top/scroll-top';
 import Spinner from './spinner/spinner';
 
 export default function App(): JSX.Element {
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const isOffersDataLoading = useAppSelector((state) => state.isOfferDataLoading);
+
+  if (authorizationStatus === AuthorizationStatus.Unknown || isOffersDataLoading) {
+    return (
+      <Spinner />
+    );
+  }
   return (
     <HelmetProvider>
       <BrowserRouter>
@@ -35,7 +44,7 @@ export default function App(): JSX.Element {
             <Route
               path={AppRoute.Favorites}
               element={
-                <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+                <PrivateRoute authorizationStatus={authorizationStatus}>
                   <Favorites offers={CardOffer} />
                 </PrivateRoute>
               }
