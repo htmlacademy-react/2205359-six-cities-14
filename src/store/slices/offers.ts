@@ -58,6 +58,7 @@ export const offerSlice = createSlice({
       })
       .addCase(fetchCurrentOffer.rejected, (state) => {
         state.error = 'Error';
+        state.isCurrentOfferDataLoading = RequestStatus.Rejected;
         state.currentOffer = null;
       })
       .addCase(fetchOfferComments.pending, (state) => {

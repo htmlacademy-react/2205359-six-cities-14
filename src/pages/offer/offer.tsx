@@ -34,12 +34,10 @@ export default function Offer (): JSX.Element {
     }
   }, [offerId, dispatch]);
 
-  if (!currentOffer || loadingStatus === RequestStatus.Idle || loadingStatus === RequestStatus.Pending) {
-    return <Spinner />;
-  }
-
-  if (errorStatus) {
-    return <Navigate to={AppRoute.Error} />;
+  if (!currentOffer || loadingStatus !== RequestStatus.Fulfilled) {
+    return (
+      loadingStatus === RequestStatus.Rejected ? <Navigate to={AppRoute.Error} /> : <Spinner />
+    );
   }
 
   return (
