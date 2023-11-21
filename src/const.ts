@@ -39,3 +39,10 @@ export enum NameSpace {
   User = 'user',
   City = 'city'
 }
+
+export enum RequestStatus {
+  Idle = 'idle',
+  Pending = 'pending',
+  Fulfilled = 'fulfilled',
+  Rejected = 'rejected',
+}

@@ -1,6 +1,6 @@
 import {Helmet} from 'react-helmet-async';
 import {Navigate} from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AppRoute, RequestStatus } from '../../const';
 import Logo from '../../components/logo/logo';
 import MainNavigation from '../../components/main-navigation/main-navigation';
 import {useParams} from 'react-router-dom';
@@ -23,26 +23,27 @@ export default function Offer (): JSX.Element {
   const currentOffer = useAppSelector((state) => state.offers.currentOffer);
   const currentComments = useAppSelector((state) => state.offers.currentOfferComments);
   const loadingStatus = useAppSelector((state) => state.offers.isCurrentOfferDataLoading);
+  const errorStatus = useAppSelector((state) => state.offers.error);
+  const isPremium = 'Premium';
+  const getRating = (rating: number) => Math.round((rating * 100) / 5);
+
   useEffect(() => {
     if (offerId) {
       dispatch(fetchCurrentOffer(offerId));
       dispatch(fetchOfferComments(offerId));
     }
-    // return () => {
-    //   dispatch(offerSlice.actions.dropOffer(null));
-    // };
-
   }, [offerId, dispatch]);
 
-  if (!currentOffer) {
+  if (!currentOffer || loadingStatus === RequestStatus.Idle || loadingStatus === RequestStatus.Pending) {
+    return <Spinner />;
+  }
+
+  if (errorStatus) {
     return <Navigate to={AppRoute.Error} />;
   }
-  const isPremium = 'Premium';
-  const getRating = (rating: number) => Math.round((rating * 100) / 5);
 
   return (
     <div className="page">
-      {loadingStatus && <Spinner /> }
       <Helmet>
         <title>6 cities: offer</title>
       </Helmet>

@@ -2,14 +2,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { OfferType } from '../../types/offer-type';
 import { fetchOffers, fetchCurrentOffer, fetchOfferComments } from '../api-actions';
 import { DEFAULT_SORTING } from '../../const';
-import { NameSpace } from '../../const';
+import { NameSpace, RequestStatus } from '../../const';
 import { Comment } from '../../types/comment';
 
 type OfferState = {
   offers: OfferType[];
   isOffersDataLoading: boolean;
   currentOffer: null | OfferType;
-  isCurrentOfferDataLoading: boolean;
+  isCurrentOfferDataLoading: RequestStatus;
   currentOfferComments: Comment[];
   error: null | string;
   sortingOption: string;
@@ -19,7 +19,7 @@ const initialState: OfferState = {
   offers: [],
   isOffersDataLoading: false,
   currentOffer: null,
-  isCurrentOfferDataLoading: false,
+  isCurrentOfferDataLoading: RequestStatus.Idle,
   currentOfferComments: [],
   error: null,
   sortingOption: DEFAULT_SORTING,
@@ -50,10 +50,10 @@ export const offerSlice = createSlice({
         state.error = 'Error';
       })
       .addCase(fetchCurrentOffer.pending, (state) => {
-        state.isCurrentOfferDataLoading = true;
+        state.isCurrentOfferDataLoading = RequestStatus.Pending;
       })
       .addCase(fetchCurrentOffer.fulfilled, (state, action) => {
-        state.isCurrentOfferDataLoading = false;
+        state.isCurrentOfferDataLoading = RequestStatus.Fulfilled;
         state.currentOffer = action.payload;
       })
       .addCase(fetchCurrentOffer.rejected, (state) => {
@@ -61,10 +61,10 @@ export const offerSlice = createSlice({
         state.currentOffer = null;
       })
       .addCase(fetchOfferComments.pending, (state) => {
-        state.isCurrentOfferDataLoading = true;
+        state.isCurrentOfferDataLoading = RequestStatus.Pending;
       })
       .addCase(fetchOfferComments.fulfilled, (state, action) => {
-        state.isCurrentOfferDataLoading = false;
+        state.isCurrentOfferDataLoading = RequestStatus.Fulfilled;
         state.currentOfferComments = action.payload;
       })
       .addCase(fetchOfferComments.rejected, (state) => {
