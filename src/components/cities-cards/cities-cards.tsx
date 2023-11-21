@@ -4,17 +4,18 @@ import {useState} from 'react';
 import Map from '../map/map';
 import { CITIES_MAP } from '../../mocks/cities';
 import OffersSort from '../offers-sort/offers-sort';
+import { useAppSelector } from '../../hooks/redux-hooks';
 
 type CardListProps = {
   offers: OfferType[];
-  activeCity: string;
 }
 
-export default function CityCards ({offers, activeCity}: CardListProps) {
+export default function CityCards ({offers}: CardListProps) {
   const [hoveredOfferId, setHoveredOfferId] = useState<string | null>(null);
   function handleCardHover(offerId: string | null) {
     setHoveredOfferId(offerId);
   }
+  const activeCity = useAppSelector((store) => store.city.city);
   const cityLocation = CITIES_MAP.find((city) => city.name === activeCity)?.location;
 
   return (

@@ -1,14 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { OfferType } from '../../types/offer-type';
-import { fetchOffers, fetchCurrentOffer } from '../api-actions';
+import { fetchOffers, fetchCurrentOffer, fetchOfferComments } from '../api-actions';
 import { DEFAULT_SORTING } from '../../const';
 import { NameSpace } from '../../const';
+import { Comment } from '../../types/comment';
 
 type OfferState = {
   offers: OfferType[];
   isOffersDataLoading: boolean;
   currentOffer: null | OfferType;
   isCurrentOfferDataLoading: boolean;
+  currentOfferComments: Comment[];
   error: null | string;
   sortingOption: string;
 }
@@ -18,6 +20,7 @@ const initialState: OfferState = {
   isOffersDataLoading: false,
   currentOffer: null,
   isCurrentOfferDataLoading: false,
+  currentOfferComments: [],
   error: null,
   sortingOption: DEFAULT_SORTING,
 };
@@ -29,7 +32,7 @@ export const offerSlice = createSlice({
     changeSortOption(state, action: PayloadAction<string>) {
       state.sortingOption = action.payload;
     },
-    dropOffer(state, action: PayloadAction<null>) {
+    dropOffer(state, action: PayloadAction<null | OfferType>) {
       state.currentOffer = action.payload;
     }
   },
@@ -56,6 +59,17 @@ export const offerSlice = createSlice({
       .addCase(fetchCurrentOffer.rejected, (state) => {
         state.error = 'Error';
         state.currentOffer = null;
+      })
+      .addCase(fetchOfferComments.pending, (state) => {
+        state.isCurrentOfferDataLoading = true;
+      })
+      .addCase(fetchOfferComments.fulfilled, (state, action) => {
+        state.isCurrentOfferDataLoading = false;
+        state.currentOfferComments = action.payload;
+      })
+      .addCase(fetchOfferComments.rejected, (state) => {
+        state.error = 'Error';
+        state.currentOfferComments = [];
       });
   }
 });

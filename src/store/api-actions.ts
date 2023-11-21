@@ -1,19 +1,16 @@
 import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import {AppDispatch, State} from '../types/state.js';
 import { OfferType } from '../types/offer-type';
+import { Comment } from '../types/comment';
+import {APIRoute} from '../const';
 // import { requireAuthorization, setError, setOffersDataLoadingStatus, getOffer } from './action';
 // import {saveToken, dropToken} from '../services/token';
-import {APIRoute, AuthorizationStatus} from '../const';
-// import { AuthData, UserData } from '../types/api-data.js';
+// import { requireAuthorization, setError, setOffersDataLoadingStatus, getOffer } from './action';
+// import {saveToken, dropToken} from '../services/token';
+// import { AuthData, UserData } from '../types/api-data';
 // import { TIMEOUT_SHOW_ERROR } from '../const';
-// import { store } from './index.js';
+// import { store } from './index';
 
-// type ThunkApiConfig = {
-//   dispatch: AppDispatch;
-//   state: State;
-//   extra: AxiosInstance;
-// };
 
 type Extra = {
   extra: AxiosInstance;
@@ -31,6 +28,14 @@ export const fetchCurrentOffer = createAsyncThunk<OfferType, string | undefined,
   'data/fetchCurrentOffer',
   async (offerId, {extra: api}) => {
     const {data} = await api.get<OfferType>(`${APIRoute.Offers}/${offerId}`);
+    return data;
+  },
+);
+
+export const fetchOfferComments = createAsyncThunk<Comment[], string | undefined, Extra>(
+  'data/fetchOfferComments',
+  async (offerId, {extra: api}) => {
+    const {data} = await api.get<Comment[]>(`${APIRoute.Comments}/${offerId}`);
     return data;
   },
 );

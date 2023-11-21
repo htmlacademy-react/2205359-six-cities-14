@@ -10,25 +10,23 @@ import ReviewsList from '../../components/reviews-list/reviews-list';
 import Map from '../../components/map/map';
 import Card from '../../components/card/card';
 import { useAppSelector, useAppDispatch } from '../../hooks/redux-hooks';
-import { fetchCurrentOffer } from '../../store/api-actions';
+import { fetchCurrentOffer, fetchOfferComments } from '../../store/api-actions';
 import { useEffect } from 'react';
 import { CardOffer } from '../../mocks/cardOffer';
-import { offerSlice } from '../../store/slices/offers';
 import Spinner from '../../components/spinner/spinner';
-// type OfferProps = {
-//   offers: OfferType[];
-// }
+
 
 export default function Offer (): JSX.Element {
   const mock = CardOffer;
   const dispatch = useAppDispatch();
   const {id: offerId} = useParams();
-  console.log(offerId);
   const currentOffer = useAppSelector((state) => state.offers.currentOffer);
+  const currentComments = useAppSelector((state) => state.offers.currentOfferComments);
   const loadingStatus = useAppSelector((state) => state.offers.isCurrentOfferDataLoading);
   useEffect(() => {
     if (offerId) {
       dispatch(fetchCurrentOffer(offerId));
+      dispatch(fetchOfferComments(offerId));
     }
     // return () => {
     //   dispatch(offerSlice.actions.dropOffer(null));
@@ -121,10 +119,10 @@ export default function Offer (): JSX.Element {
                   <p className="offer__text">{currentOffer.description}</p>
                 </div>
               </div>
-              {/* <ReviewsList offer={currentOffer}/> */}
+              <ReviewsList comments={currentComments}/>
             </div>
           </div>
-          <Map location={currentOffer.city.location} offers={mock} specialOfferId={currentOffer.id} isOfferPage/>
+          <Map location={currentOffer.city.location} offers={[currentOffer]} specialOfferId={currentOffer.id} isOfferPage/>
         </section>
         <div className="container">
           <section className="near-places places">

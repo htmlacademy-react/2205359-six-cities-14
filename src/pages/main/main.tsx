@@ -4,10 +4,11 @@ import Logo from '../../components/logo/logo';
 import CityFilters from '../../components/city-filters/city-filters';
 import MainNavigation from '../../components/main-navigation/main-navigation';
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector} from '../../hooks/redux-hooks';
+import { useAppSelector, useAppDispatch} from '../../hooks/redux-hooks';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { DEFAULT_CITY } from '../../const';
+import { citySlice } from '../../store/slices/city';
 
 export default function MainPage (): JSX.Element {
   const navigate = useNavigate();
@@ -15,6 +16,11 @@ export default function MainPage (): JSX.Element {
   const currentSortOption = useAppSelector((store) => store.offers.sortingOption);
   const currentCityOffers : OfferType[] = useAppSelector((store) => store.offers.offers.filter((offer) => offer.city.name === currentCity));
   const location = useLocation().pathname.slice(1);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(citySlice.actions.changeCity(location));
+  }, [location, dispatch]);
 
   useEffect(()=> {
     if (!location) {
@@ -50,7 +56,7 @@ export default function MainPage (): JSX.Element {
           </section>
         </div>
         <div className="cities">
-          <CityCards offers={sortedOffers} activeCity={currentCity}/>
+          <CityCards offers={sortedOffers} />
         </div>
       </main>
     </div>
