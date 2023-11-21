@@ -11,9 +11,9 @@ import { DEFAULT_CITY } from '../../const';
 
 export default function MainPage (): JSX.Element {
   const navigate = useNavigate();
-  const currentCity = useAppSelector((store) => store.city);
-  const currentSortOption = useAppSelector((store) => store.sortingOption);
-  const currentCityOffers : OfferType[] = useAppSelector((store) => store.offers.filter((offer) => offer.city.name === currentCity));
+  const currentCity = useAppSelector((store) => store.city.city);
+  const currentSortOption = useAppSelector((store) => store.offers.sortingOption);
+  const currentCityOffers : OfferType[] = useAppSelector((store) => store.offers.offers.filter((offer) => offer.city.name === currentCity));
   const location = useLocation().pathname.slice(1);
 
   useEffect(()=> {

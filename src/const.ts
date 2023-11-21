@@ -2,6 +2,8 @@ export const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', '
 
 export const DEFAULT_CITY = 'Paris';
 
+export const DEFAULT_SORTING = 'Popular';
+
 export const TIMEOUT_SHOW_ERROR = 2000;
 
 export const enum Props {
@@ -30,4 +32,10 @@ export enum APIRoute {
   Comments = '/comments',
   Login = '/login',
   Logout = '/logout'
+}
+
+export enum NameSpace {
+  Offers = 'offers',
+  User = 'user',
+  City = 'city'
 }

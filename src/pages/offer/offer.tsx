@@ -9,14 +9,32 @@ import OfferImage from '../../components/offer-image/offer-image';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import Map from '../../components/map/map';
 import Card from '../../components/card/card';
+import { useAppSelector, useAppDispatch } from '../../hooks/redux-hooks';
+import { fetchCurrentOffer } from '../../store/api-actions';
+import { useEffect } from 'react';
+import { CardOffer } from '../../mocks/cardOffer';
+import { offerSlice } from '../../store/slices/offers';
+import Spinner from '../../components/spinner/spinner';
+// type OfferProps = {
+//   offers: OfferType[];
+// }
 
-type OfferProps = {
-  offers: OfferType[];
-}
+export default function Offer (): JSX.Element {
+  const mock = CardOffer;
+  const dispatch = useAppDispatch();
+  const {id: offerId} = useParams();
+  console.log(offerId);
+  const currentOffer = useAppSelector((state) => state.offers.currentOffer);
+  const loadingStatus = useAppSelector((state) => state.offers.isCurrentOfferDataLoading);
+  useEffect(() => {
+    if (offerId) {
+      dispatch(fetchCurrentOffer(offerId));
+    }
+    // return () => {
+    //   dispatch(offerSlice.actions.dropOffer(null));
+    // };
 
-export default function Offer ({offers} : OfferProps): JSX.Element {
-  const params = useParams();
-  const currentOffer = offers.find((el) => el.id === params.id);
+  }, [offerId, dispatch]);
 
   if (!currentOffer) {
     return <Navigate to={AppRoute.Error} />;
@@ -26,6 +44,7 @@ export default function Offer ({offers} : OfferProps): JSX.Element {
 
   return (
     <div className="page">
+      {loadingStatus && <Spinner /> }
       <Helmet>
         <title>6 cities: offer</title>
       </Helmet>
@@ -102,10 +121,10 @@ export default function Offer ({offers} : OfferProps): JSX.Element {
                   <p className="offer__text">{currentOffer.description}</p>
                 </div>
               </div>
-              <ReviewsList offer={currentOffer}/>
+              {/* <ReviewsList offer={currentOffer}/> */}
             </div>
           </div>
-          <Map location={currentOffer.city.location} offers={offers} specialOfferId={currentOffer.id} isOfferPage/>
+          <Map location={currentOffer.city.location} offers={mock} specialOfferId={currentOffer.id} isOfferPage/>
         </section>
         <div className="container">
           <section className="near-places places">
@@ -113,7 +132,8 @@ export default function Offer ({offers} : OfferProps): JSX.Element {
           Other places in the neighbourhood
             </h2>
             <div className="near-places__list places__list">
-              {offers.map((offer : OfferType) => <Card offer={offer} key={offer.id} isMainPage={false} isOfferPage />)}
+              {/*  МОКИ */}
+              {mock.map((offer : OfferType) => <Card offer={offer} key={offer.id} isMainPage={false} isOfferPage />)}
             </div>
           </section>
         </div>

@@ -1,7 +1,7 @@
 import axios, {AxiosInstance, AxiosResponse, AxiosError} from 'axios';
 import { getToken } from './token';
 import { StatusCodes } from 'http-status-codes';
-import {processErrorHandle} from './process-error-handle';
+// import {processErrorHandle} from './process-error-handle';
 
 const BASE_URL = 'https://14.design.pages.academy/six-cities';
 const REQUEST_TIMEOUT = 5000;
@@ -38,18 +38,18 @@ export const createAPI = (): AxiosInstance => {
     },
   );
   // Перехватчик - обработка ошибки -> соответствующая ошибка -> processErrorHandle(сообщение ошибки)
-  api.interceptors.response.use(
-    (response) => response,
-    (error: AxiosError<DetailMessageType>) => {
-      if (error.response && shouldDisplayError(error.response)) {
-        const detailMessage = (error.response.data);
+  // api.interceptors.response.use(
+  //   (response) => response,
+  //   (error: AxiosError<DetailMessageType>) => {
+  //     if (error.response && shouldDisplayError(error.response)) {
+  //       const detailMessage = (error.response.data);
 
-        processErrorHandle(detailMessage.message);
-      }
+  //       processErrorHandle(detailMessage.message);
+  //     }
 
-      throw error;
-    }
-  );
+  //     throw error;
+  //   }
+  // );
 
   return api;
 };

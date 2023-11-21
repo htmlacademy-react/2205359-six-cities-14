@@ -12,12 +12,15 @@ import { CardOffer } from '../mocks/cardOffer';
 import { CITIES } from '../const';
 import ScrollToTop from './scroll-top/scroll-top';
 import Spinner from './spinner/spinner';
+import { fetchOffers } from '../store/api-actions';
+import { store } from '../store';
+
+store.dispatch(fetchOffers());
 
 export default function App(): JSX.Element {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const isOffersDataLoading = useAppSelector((state) => state.isOfferDataLoading);
+  const isOffersDataLoading = useAppSelector((state) => state.offers.isOffersDataLoading);
 
-  if (authorizationStatus === AuthorizationStatus.Unknown || isOffersDataLoading) {
+  if (isOffersDataLoading) {
     return (
       <Spinner />
     );
@@ -44,13 +47,13 @@ export default function App(): JSX.Element {
             <Route
               path={AppRoute.Favorites}
               element={
-                <PrivateRoute authorizationStatus={authorizationStatus}>
+                <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
                   <Favorites offers={CardOffer} />
                 </PrivateRoute>
               }
             />
             <Route path={AppRoute.Offer}>
-              <Route path={':id'} element={<Offer offers={CardOffer}/>}/>
+              <Route path={':id'} element={<Offer />}/>
             </Route>
             <Route
               path={AppRoute.Error}

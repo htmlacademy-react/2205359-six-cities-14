@@ -1,7 +1,7 @@
 import { useAppSelector, useAppDispatch } from '../../hooks/redux-hooks';
 import cn from 'classnames';
 import { useState } from 'react';
-import { changeSortOption } from '../../store/action';
+import { offerSlice } from '../../store/slices/offers';
 
 export default function OffersSort() {
   const sortingOptions = ['Popular', 'Price: low to high', 'Price: high to low', 'Top rated first'];
@@ -9,10 +9,10 @@ export default function OffersSort() {
   const optionsClassName = cn('places__options', 'places__options--custom', {
     'places__options--opened': isOptionsOpened,
   });
-  const activeOption = useAppSelector((store) => store.sortingOption);
+  const activeOption = useAppSelector((store) => store.offers.sortingOption);
   const dispatch = useAppDispatch();
   const handleOptionClick = (state: string) => {
-    dispatch(changeSortOption(state));
+    dispatch(offerSlice.actions.changeSortOption(state));
     setIsOptionsOpened(!isOptionsOpened);
   };
   return (
