@@ -31,10 +31,11 @@ export default function ReviewForm () {
       <label className="reviews__label form__label" htmlFor="review">
   Your review
       </label>
-      <div className="reviews__rating-form form__rating">
+      <div className="reviews__rating-form form__rating" key={'reviews__rating'}>
         {Object.entries(Rating).reverse().map(([key, value] : string[]) => (
           <>
             <input
+              key={`${key}Input`}
               onChange={handleRatingChange}
               className="form__rating-input visually-hidden"
               name="rating"
@@ -43,11 +44,12 @@ export default function ReviewForm () {
               type="radio"
             />
             <label
+              key={`${key}Label`}
               htmlFor={`${key}-stars`}
               className="reviews__rating-label form__rating-label"
               title={value}
             >
-              <svg className="form__star-image" width={37} height={33}>
+              <svg className="form__star-image" width={37} height={33} key={`${key}-icon`}>
                 <use xlinkHref="#icon-star" />
               </svg>
             </label>

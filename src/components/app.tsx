@@ -1,5 +1,7 @@
-import {Route, BrowserRouter, Routes} from 'react-router-dom';
-import {AppRoute, AuthorizationStatus} from '../const';
+import {Route, Routes} from 'react-router-dom';
+import HistoryRouter from './history-route/history-route';
+import browserHistory from '../browser-history';
+import {AppRoute} from '../const';
 import PrivateRoute from './private-route/private-route';
 import {HelmetProvider} from 'react-helmet-async';
 import { useAppSelector } from '../hooks/redux-hooks';
@@ -12,9 +14,10 @@ import { CardOffer } from '../mocks/cardOffer';
 import { CITIES } from '../const';
 import ScrollToTop from './scroll-top/scroll-top';
 import Spinner from './spinner/spinner';
-import { fetchOffers } from '../store/api-actions';
+import { fetchOffers, checkAuthAction } from '../store/api-actions';
 import { store } from '../store';
 
+store.dispatch(checkAuthAction());
 store.dispatch(fetchOffers());
 
 export default function App(): JSX.Element {
@@ -27,7 +30,7 @@ export default function App(): JSX.Element {
   }
   return (
     <HelmetProvider>
-      <BrowserRouter>
+      <HistoryRouter history={browserHistory}>
         <ScrollToTop>
           <Routes>
             <Route path={AppRoute.Main} element={<MainPage />} >
@@ -47,7 +50,7 @@ export default function App(): JSX.Element {
             <Route
               path={AppRoute.Favorites}
               element={
-                <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+                <PrivateRoute>
                   <Favorites offers={CardOffer} />
                 </PrivateRoute>
               }
@@ -62,7 +65,7 @@ export default function App(): JSX.Element {
             <Route path='spinner' element={<Spinner />} />
           </Routes>
         </ScrollToTop>
-      </BrowserRouter>
+      </HistoryRouter>
     </HelmetProvider>
   );
 }

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { OfferType } from '../../types/offer-type';
-import { fetchOffers, fetchCurrentOffer, fetchOfferComments } from '../api-actions';
+import { fetchOffers, fetchCurrentOffer, fetchOfferComments,fetchOffersNearby } from '../api-actions';
 import { DEFAULT_SORTING } from '../../const';
 import { NameSpace, RequestStatus } from '../../const';
 import { Comment } from '../../types/comment';
@@ -11,6 +11,8 @@ type OfferState = {
   currentOffer: null | OfferType;
   isCurrentOfferDataLoading: RequestStatus;
   currentOfferComments: Comment[];
+  nearbyOffers: OfferType[];
+  isNearbyOfferDataLoading: RequestStatus;
   error: null | string;
   sortingOption: string;
 }
@@ -21,6 +23,8 @@ const initialState: OfferState = {
   currentOffer: null,
   isCurrentOfferDataLoading: RequestStatus.Idle,
   currentOfferComments: [],
+  nearbyOffers: [],
+  isNearbyOfferDataLoading: RequestStatus.Idle,
   error: null,
   sortingOption: DEFAULT_SORTING,
 };
@@ -71,6 +75,18 @@ export const offerSlice = createSlice({
       .addCase(fetchOfferComments.rejected, (state) => {
         state.error = 'Error';
         state.currentOfferComments = [];
+      })
+      .addCase(fetchOffersNearby.pending, (state) => {
+        state.isCurrentOfferDataLoading = RequestStatus.Pending;
+      })
+      .addCase(fetchOffersNearby.fulfilled, (state, action) => {
+        state.isCurrentOfferDataLoading = RequestStatus.Fulfilled;
+        state.nearbyOffers = action.payload;
+      })
+      .addCase(fetchOffersNearby.rejected, (state) => {
+        state.error = 'Error';
+        state.isCurrentOfferDataLoading = RequestStatus.Rejected;
+        state.nearbyOffers = [];
       });
   }
 });
