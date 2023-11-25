@@ -38,17 +38,17 @@ export const createAPI = (): AxiosInstance => {
     },
   );
   // Перехватчик - обработка ошибки -> соответствующая ошибка -> processErrorHandle(сообщение ошибки)
-  // api.interceptors.response.use(
-  //   (response) => response,
-  //   (error: AxiosError<DetailMessageType>) => {
-  //     if (error.response && shouldDisplayError(error.response)) {
-  //       const detailMessage = (error.response.data);
-  //       toast.warn(detailMessage.message);
-  //     }
+  api.interceptors.response.use(
+    (response) => response,
+    (error: AxiosError<DetailMessageType>) => {
+      if (error.response && shouldDisplayError(error.response)) {
+        const detailMessage = (error.response.data);
+        toast.warn(detailMessage.message);
+      }
 
-  //     throw error;
-  //   }
-  // );
+      throw error;
+    }
+  );
 
   return api;
 };

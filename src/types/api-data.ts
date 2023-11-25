@@ -10,3 +10,9 @@ export type UserData = {
   email: string;
   token: string;
 };
+
+export type UserComment = {
+  offerId: string | undefined;
+  comment: string;
+  rating: number;
+};

@@ -10,12 +10,12 @@ import Login from '../pages/login/login';
 import Favorites from '../pages/favorites/favorites';
 import Offer from '../pages/offer/offer';
 import NotFound from '../pages/not-found/not-found';
-import { CardOffer } from '../mocks/cardOffer';
 import { CITIES } from '../const';
 import ScrollToTop from './scroll-top/scroll-top';
 import Spinner from './spinner/spinner';
 import { fetchOffers, checkAuthAction } from '../store/api-actions';
 import { store } from '../store';
+import RedirectToMain from './redirect-to-main/redirect-to-main';
 
 store.dispatch(checkAuthAction());
 store.dispatch(fetchOffers());
@@ -45,13 +45,17 @@ export default function App(): JSX.Element {
             </Route>
             <Route
               path={AppRoute.Login}
-              element={<Login />}
+              element={
+                <RedirectToMain>
+                  <Login />
+                </RedirectToMain>
+              }
             />
             <Route
               path={AppRoute.Favorites}
               element={
                 <PrivateRoute>
-                  <Favorites offers={CardOffer} />
+                  <Favorites />
                 </PrivateRoute>
               }
             />

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { OfferType } from '../../types/offer-type';
-import { fetchOffers, fetchCurrentOffer, fetchOfferComments,fetchOffersNearby } from '../api-actions';
+import { fetchOffers, fetchCurrentOffer, fetchOfferComments,fetchOffersNearby, addComment, fetchFavorites } from '../api-actions';
 import { DEFAULT_SORTING } from '../../const';
 import { NameSpace, RequestStatus } from '../../const';
 import { Comment } from '../../types/comment';
@@ -11,8 +11,11 @@ type OfferState = {
   currentOffer: null | OfferType;
   isCurrentOfferDataLoading: RequestStatus;
   currentOfferComments: Comment[];
+  isCommentLoading: RequestStatus;
   nearbyOffers: OfferType[];
   isNearbyOfferDataLoading: RequestStatus;
+  favoriteOffers: OfferType[];
+  isFavoriteDataLoading: RequestStatus;
   error: null | string;
   sortingOption: string;
 }
@@ -23,8 +26,11 @@ const initialState: OfferState = {
   currentOffer: null,
   isCurrentOfferDataLoading: RequestStatus.Idle,
   currentOfferComments: [],
+  isCommentLoading: RequestStatus.Idle,
   nearbyOffers: [],
   isNearbyOfferDataLoading: RequestStatus.Idle,
+  favoriteOffers: [],
+  isFavoriteDataLoading: RequestStatus.Idle,
   error: null,
   sortingOption: DEFAULT_SORTING,
 };
@@ -87,6 +93,28 @@ export const offerSlice = createSlice({
         state.error = 'Error';
         state.isCurrentOfferDataLoading = RequestStatus.Rejected;
         state.nearbyOffers = [];
+      })
+      .addCase(addComment.pending, (state) => {
+        state.isCommentLoading = RequestStatus.Pending;
+      })
+      .addCase(addComment.fulfilled, (state, action) => {
+        state.isCommentLoading = RequestStatus.Fulfilled;
+        state.currentOfferComments.push(action.payload);
+      })
+      .addCase(addComment.rejected, (state) => {
+        state.error = 'Error';
+        state.isCommentLoading = RequestStatus.Rejected;
+      })
+      .addCase(fetchFavorites.pending, (state) => {
+        state.isFavoriteDataLoading = RequestStatus.Pending;
+      })
+      .addCase(fetchFavorites.fulfilled, (state, action) => {
+        state.favoriteOffers = action.payload;
+        state.isFavoriteDataLoading = RequestStatus.Fulfilled;
+      })
+      .addCase(fetchFavorites.rejected, (state) => {
+        state.isFavoriteDataLoading = RequestStatus.Rejected;
+        state.error = 'Error';
       });
   }
 });

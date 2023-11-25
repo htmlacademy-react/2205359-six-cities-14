@@ -6,9 +6,8 @@ import {APIRoute, AppRoute, AuthorizationStatus} from '../const';
 import { State, AppDispatch } from '../types/state';
 import { userSlice } from './slices/user';
 import {saveToken, dropToken} from '../services/token';
-import { AuthData, UserData } from '../types/api-data';
+import { AuthData, UserData, UserComment } from '../types/api-data';
 import { redirectToRoute } from './action';
-
 
 type Extra = {
   dispatch: AppDispatch;
@@ -86,4 +85,21 @@ export const getCurrentUserData = createAsyncThunk<UserData, undefined, Extra>(
 
     return data;
   }
+);
+
+export const addComment = createAsyncThunk<Comment, UserComment, Extra>(
+  'data/addComment',
+  async ({offerId, comment, rating}, { extra: api }) => {
+    const { data } = await api.post<Comment>(`${APIRoute.Comments}/${offerId}`, { comment, rating });
+    return data;
+  }
+);
+
+
+export const fetchFavorites = createAsyncThunk<OfferType[], undefined, Extra>(
+  'data/fetchFavorites',
+  async (_arg, {extra: api}) => {
+    const {data} = await api.get<OfferType[]>(APIRoute.Favorite);
+    return data;
+  },
 );

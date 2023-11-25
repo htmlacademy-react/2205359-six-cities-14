@@ -1,4 +1,10 @@
-import {ChangeEvent, useState} from 'react';
+import {ChangeEvent, useState, FormEvent} from 'react';
+import { useAppDispatch } from '../../hooks/redux-hooks';
+import { addComment} from '../../store/api-actions';
+
+type ReviewFormProps = {
+  id: string | undefined;
+}
 
 const MIN_COMMENT_LENGTH = 50;
 const MAX_COMMENT_LENGTH = 300;
@@ -10,30 +16,44 @@ const Rating = {
   1: 'terribly',
 };
 
-export default function ReviewForm () {
-  const [comment, setComment] = useState('');
-  const [rating, setRating] = useState('');
+export default function ReviewForm ({id} : ReviewFormProps) {
+  const dispatch = useAppDispatch();
+  const [commentData, setComment] = useState('');
+  const [ratingData, setRating] = useState(0);
   const isValid =
-    comment.length >= MIN_COMMENT_LENGTH &&
-    comment.length <= MAX_COMMENT_LENGTH &&
-    rating;
+    commentData.length >= MIN_COMMENT_LENGTH &&
+    commentData.length <= MAX_COMMENT_LENGTH &&
+    ratingData;
 
   const handleTextareaChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
     setComment(evt.target.value);
   };
 
   const handleRatingChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    setRating(evt.target.value);
+    setRating(Number(evt.target.value));
+  };
+
+  const handleFormSumbit = (evt : FormEvent) => {
+    evt.preventDefault();
+    const userComment = {
+      offerId: id,
+      comment: commentData,
+      rating: ratingData,
+    };
+    dispatch(addComment(userComment)).then(() => {
+      setComment('');
+      setRating(0);
+    });
   };
 
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form className="reviews__form form" action="#" method="post" onSubmit={handleFormSumbit}>
       <label className="reviews__label form__label" htmlFor="review">
   Your review
       </label>
       <div className="reviews__rating-form form__rating" key={'reviews__rating'}>
         {Object.entries(Rating).reverse().map(([key, value] : string[]) => (
-          <>
+          <div key = {key}>
             <input
               key={`${key}Input`}
               onChange={handleRatingChange}
@@ -53,7 +73,7 @@ export default function ReviewForm () {
                 <use xlinkHref="#icon-star" />
               </svg>
             </label>
-          </>
+          </div>
         ))}
       </div>
       <textarea
@@ -62,7 +82,7 @@ export default function ReviewForm () {
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        defaultValue={''}
+        value={commentData}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">

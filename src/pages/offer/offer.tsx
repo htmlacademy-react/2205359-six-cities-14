@@ -118,7 +118,7 @@ export default function Offer (): JSX.Element {
                   <p className="offer__text">{currentOffer.description}</p>
                 </div>
               </div>
-              <ReviewsList comments={currentComments}/>
+              <ReviewsList comments={currentComments} id={offerId}/>
             </div>
           </div>
           <Map location={currentOffer.city.location} offers={[currentOffer, ...nearbyToShow]} specialOfferId={currentOffer.id} isOfferPage/>

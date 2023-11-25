@@ -14,7 +14,7 @@ export default function HeaderLoggedIn () {
   }, [dispatch]);
 
   return (
-    <li className="header__nav-item user">
+    <>
       <li className="header__nav-item user">
         <Link
           to={AppRoute.Favorites}
@@ -40,6 +40,6 @@ export default function HeaderLoggedIn () {
           <span className="header__signout">Sign out</span>
         </Link>
       </li>
-    </li>
+    </>
   );
 }
