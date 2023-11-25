@@ -1,6 +1,7 @@
 import {ChangeEvent, useState, FormEvent} from 'react';
-import { useAppDispatch } from '../../hooks/redux-hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { addComment} from '../../store/api-actions';
+import { RequestStatus } from '../../const';
 
 type ReviewFormProps = {
   id: string | undefined;
@@ -24,7 +25,7 @@ export default function ReviewForm ({id} : ReviewFormProps) {
     commentData.length >= MIN_COMMENT_LENGTH &&
     commentData.length <= MAX_COMMENT_LENGTH &&
     ratingData;
-
+  const commentLoadStatus = useAppSelector((state) => state.offers.isCommentLoading);
   const handleTextareaChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
     setComment(evt.target.value);
   };
@@ -94,7 +95,7 @@ export default function ReviewForm ({id} : ReviewFormProps) {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={!isValid}
+          disabled={!isValid || commentLoadStatus === RequestStatus.Pending}
         >
     Submit
         </button>

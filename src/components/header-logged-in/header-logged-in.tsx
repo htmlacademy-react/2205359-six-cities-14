@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 
 export default function HeaderLoggedIn () {
   const userData = useAppSelector((state) => state.user.userData);
+  const favorites = useAppSelector((state) => state.offers.favoriteOffers);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -25,7 +26,7 @@ export default function HeaderLoggedIn () {
             <img src={userData.avatarUrl}></img>}
           </div>
           <span className="header__user-name user__name">{userData.email}</span>
-          <span className="header__favorite-count">3</span>
+          <span className="header__favorite-count">{favorites.length}</span>
         </Link>
       </li>
       <li className="header__nav-item">

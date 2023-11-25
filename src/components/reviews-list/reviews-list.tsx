@@ -1,7 +1,7 @@
 import { Comment } from '../../types/comment';
 import ReviewForm from '../../components/review-form/review-form';
 import { useAppSelector } from '../../hooks/redux-hooks';
-import { AuthorizationStatus } from '../../const';
+import { AuthorizationStatus, MAX_COMMENT_COUNT } from '../../const';
 import { dateSorting } from '../../util';
 import * as dayjs from 'dayjs';
 
@@ -13,7 +13,7 @@ type RewievsListProps = {
 export default function ReviewsList({comments, id} : RewievsListProps) {
   const getRating = (rating: number) => Math.round((rating * 100) / 5);
   const authStatus = useAppSelector((state) => state.user.authorizationStatus);
-  const sortedComments = [...comments].sort(dateSorting).slice(0, 9);
+  const sortedComments = [...comments].sort(dateSorting).slice(0, MAX_COMMENT_COUNT);
 
   return (
     <section className="offer__reviews reviews">
