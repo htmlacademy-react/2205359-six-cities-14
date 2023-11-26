@@ -7,6 +7,7 @@ import { fetchFavorites } from '../../store/api-actions';
 import { useEffect } from 'react';
 import Spinner from '../../components/spinner/spinner';
 import { RequestStatus } from '../../const';
+import FavoritesEmpty from '../../components/favorites-empty/favorites-empty';
 
 export default function Favorites (): JSX.Element {
   const dispatch = useAppDispatch();
@@ -37,14 +38,7 @@ export default function Favorites (): JSX.Element {
           </div>
         </div>
       </header>
-      <main className="page__main page__main--favorites">
-        <div className="page__favorites-container container">
-          <section className="favorites">
-            <h1 className="favorites__title">Saved listing</h1>
-            <FavoritesList favoriteOffers={favoriteOffers} />
-          </section>
-        </div>
-      </main>
+      {favoriteOffers.length > 0 ? <FavoritesList favoriteOffers={favoriteOffers} /> : <FavoritesEmpty />}
       <footer className="footer container">
         <a className="footer__logo-link" href="main.html">
           <img

@@ -15,21 +15,30 @@ export default function FavoritesList({favoriteOffers} : FavoritesListProps) {
   }, {});
 
   return (
-    <ul className="favorites__list">
-      {Object.entries(sortedFavorites).map(([city, cityOffers]) => (
-        <li className="favorites__locations-items" key={city}>
-          <div className="favorites__locations locations locations--current">
-            <div className="locations__item">
-              <a className="locations__item-link" href="#">
-                <span>{city}</span>
-              </a>
-            </div>
-          </div>
-          <div className="favorites__places">
-            {cityOffers.map((offer: OfferType) => <Card offer={offer} key={offer.id} isMainPage={false} isFavoritesPage />)}
-          </div>
-        </li>
-      ))}
-    </ul>
+    <main className="page__main page__main--favorites">
+      <div className="page__favorites-container container">
+        <section className="favorites">
+          <h1 className="favorites__title">Saved listing</h1>
+          <ul className="favorites__list">
+            {Object.entries(sortedFavorites).map(([city, cityOffers]) => (
+              <li className="favorites__locations-items" key={city}>
+                <div className="favorites__locations locations locations--current">
+                  <div className="locations__item">
+                    <a className="locations__item-link" href="#">
+                      <span>{city}</span>
+                    </a>
+                  </div>
+                </div>
+                <div className="favorites__places">
+                  {cityOffers.map((offer: OfferType) =>
+                    <Card offer={offer} key={offer.id} isMainPage={false} isFavoritesPage />
+                  )}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </div>
+    </main>
   );
 }

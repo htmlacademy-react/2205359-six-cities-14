@@ -10,6 +10,7 @@ import { useLocation } from 'react-router-dom';
 import { DEFAULT_CITY } from '../../const';
 import { citySlice } from '../../store/slices/city';
 import { getCurrentCityOffers, getSortingOption } from '../../store/slices/selectors';
+import MainEmpty from '../../components/main-empty/main-empty';
 
 export default function MainPage (): JSX.Element {
   const navigate = useNavigate();
@@ -56,7 +57,7 @@ export default function MainPage (): JSX.Element {
           </section>
         </div>
         <div className="cities">
-          <CityCards offers={sortedOffers} />
+          {currentCityOffers.length > 0 ? <CityCards offers={sortedOffers} /> : <MainEmpty />}
         </div>
       </main>
     </div>
