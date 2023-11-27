@@ -3,8 +3,11 @@ import Logo from '../../components/logo/logo';
 import {useRef, FormEvent} from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { loginAction } from '../../store/api-actions';
-import { RequestStatus } from '../../const';
+import { AppRoute, RequestStatus } from '../../const';
 import styles from './login.module.css';
+import { Link } from 'react-router-dom';
+import { citySlice } from '../../store/slices/city';
+import { CITIES } from '../../const';
 
 export default function Login (): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
@@ -15,6 +18,7 @@ export default function Login (): JSX.Element {
   const loginStatus = useAppSelector((state) => state.user.isLoginLoading);
   const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/;
   const emailRegex = /^\w+@[a-z]+\.[a-z]{2,}$/;
+  const randomCity = CITIES[Math.floor(Math.random() * CITIES.length)];
 
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
@@ -84,9 +88,13 @@ export default function Login (): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="#">
-                <span>Amsterdam</span>
-              </a>
+              <Link
+                to={`${AppRoute.Main}${randomCity}`}
+                className='locations__item-link'
+                onClick={() => dispatch(citySlice.actions.changeCity(randomCity))}
+              >
+                <span>{randomCity}</span>
+              </Link>
             </div>
           </section>
         </div>
