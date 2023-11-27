@@ -2,7 +2,8 @@ import {ChangeEvent, useState, FormEvent, useRef} from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { addComment} from '../../store/api-actions';
 import { RequestStatus } from '../../const';
-// import { toast } from 'react-toastify';
+import { toast } from 'react-toastify';
+import Spinner from '../spinner/spinner';
 
 type ReviewFormProps = {
   id: string | undefined;
@@ -44,10 +45,18 @@ export default function ReviewForm ({id} : ReviewFormProps) {
       rating: ratingData,
     };
     dispatch(addComment(userComment)).then(() => {
-      setComment('');
-      setRating(0);
-      if(formRef.current) {
-        formRef.current.reset();
+      if (commentLoadStatus === RequestStatus.Pending) {
+        return <Spinner />;
+      }
+      if (commentLoadStatus === RequestStatus.Fulfilled) {
+        setComment('');
+        setRating(0);
+        if (formRef.current) {
+          formRef.current.reset();
+        }
+      }
+      if (commentLoadStatus === RequestStatus.Rejected) {
+        toast.error('Failed to send a review, please, try again');
       }
     });
   };
@@ -68,7 +77,7 @@ export default function ReviewForm ({id} : ReviewFormProps) {
               defaultValue={key}
               id={`${key}-stars`}
               type="radio"
-              disabled={commentLoadStatus === RequestStatus.Pending}
+              disabled={commentLoadStatus === RequestStatus.Pending }
             />
             <label
               key={`${key}Label`}

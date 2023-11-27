@@ -15,6 +15,8 @@ export const TIMEOUT_SHOW_ERROR = 2000;
 
 export const MAX_COMMENT_COUNT = 10;
 
+export const MAX_OFFER_IMAGES_COUNT = 6;
+
 export const CITIES_MAP : TCity[] = [
   {
     location: {

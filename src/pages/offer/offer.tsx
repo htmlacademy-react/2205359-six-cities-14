@@ -1,6 +1,6 @@
 import {Helmet} from 'react-helmet-async';
 import {Navigate} from 'react-router-dom';
-import { AppRoute, RequestStatus } from '../../const';
+import { AppRoute, RequestStatus, MAX_OFFER_IMAGES_COUNT } from '../../const';
 import Logo from '../../components/logo/logo';
 import MainNavigation from '../../components/main-navigation/main-navigation';
 import {useParams} from 'react-router-dom';
@@ -65,7 +65,7 @@ export default function Offer (): JSX.Element {
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              {currentOffer.images.slice(0, 6).map((image : string) => <OfferImage image={image} key={`${currentOffer.id}${image}`}/>)}
+              {currentOffer.images.slice(0, MAX_OFFER_IMAGES_COUNT).map((image : string) => <OfferImage image={image} key={`${currentOffer.id}${image}`}/>)}
             </div>
           </div>
           <div className="offer__container container">
@@ -122,7 +122,7 @@ export default function Offer (): JSX.Element {
               <ReviewsList comments={currentComments} id={offerId}/>
             </div>
           </div>
-          <Map location={currentOffer.city.location} offers={[currentOffer, ...nearbyToShow]} specialOfferId={currentOffer.id} isOfferPage/>
+          <Map key={currentOffer.id} location={currentOffer.city.location} offers={[currentOffer, ...nearbyToShow]} specialOfferId={currentOffer.id} isOfferPage/>
         </section>
         <div className="container">
           <section className="near-places places">
