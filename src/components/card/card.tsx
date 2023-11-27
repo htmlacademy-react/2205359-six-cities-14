@@ -63,19 +63,6 @@ export default function Card ({offer, onCardHover, isMainPage = true, isFavorite
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
           <FavoriteButton offerId={offer.id} isFavorite={offer.isFavorite}/>
-          {/* <button
-            className={favBtnClass}
-            type="button"
-          >
-            <svg
-              className="place-card__bookmark-icon"
-              width={18}
-              height={19}
-            >
-              <use xlinkHref="#icon-bookmark" />
-            </svg>
-            <span className="visually-hidden">To bookmarks</span>
-          </button> */}
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
