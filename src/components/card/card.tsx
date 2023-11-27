@@ -14,7 +14,7 @@ type CardProps = {
 
 export default function Card ({offer, onCardHover, isMainPage = true, isFavoritesPage, isOfferPage}: CardProps): JSX.Element {
   const isPremium = 'Premium';
-  const ratingPrecentage = Math.round((offer.rating * 100) / 5);
+  const ratingPrecentage = Math.round(offer.rating) / 5 * 100;
   const offerId: string = `/offer/${offer.id}`;
 
   function handleMouseEnter() {

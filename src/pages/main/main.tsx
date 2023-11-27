@@ -13,6 +13,7 @@ import { getCurrentCityOffers, getSortingOption } from '../../store/slices/selec
 import { fetchOffers } from '../../store/api-actions';
 import MainEmpty from '../../components/main-empty/main-empty';
 import Spinner from '../../components/spinner/spinner';
+import cn from 'classnames';
 
 export default function MainPage (): JSX.Element {
   const navigate = useNavigate();
@@ -52,6 +53,10 @@ export default function MainPage (): JSX.Element {
 
   const sortedOffers = sortingVariants[currentSortOption];
 
+  const mainPageClass = cn('page__main', 'page__main--index', {
+    'page__main--index-empty': currentCityOffers.length <= 0
+  });
+
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -64,7 +69,7 @@ export default function MainPage (): JSX.Element {
           </div>
         </div>
       </header>
-      <main className="page__main page__main--index">
+      <main className={mainPageClass}>
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
@@ -72,7 +77,7 @@ export default function MainPage (): JSX.Element {
           </section>
         </div>
         <div className="cities">
-          {currentCityOffers.length > 0 ? <CityCards offers={sortedOffers} /> : <MainEmpty />}
+          {currentCityOffers.length > 0 ? <CityCards offers={sortedOffers} /> : <MainEmpty location={location} />}
         </div>
       </main>
     </div>

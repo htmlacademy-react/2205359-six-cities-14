@@ -1,8 +1,8 @@
-import {ChangeEvent, useState, FormEvent} from 'react';
+import {ChangeEvent, useState, FormEvent, useRef} from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { addComment} from '../../store/api-actions';
 import { RequestStatus } from '../../const';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 
 type ReviewFormProps = {
   id: string | undefined;
@@ -30,6 +30,7 @@ export default function ReviewForm ({id} : ReviewFormProps) {
   const handleTextareaChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
     setComment(evt.target.value);
   };
+  const formRef = useRef<HTMLFormElement>(null);
 
   const handleRatingChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setRating(Number(evt.target.value));
@@ -45,15 +46,14 @@ export default function ReviewForm ({id} : ReviewFormProps) {
     dispatch(addComment(userComment)).then(() => {
       setComment('');
       setRating(0);
+      if(formRef.current) {
+        formRef.current.reset();
+      }
     });
   };
 
-  if(commentLoadStatus === RequestStatus.Pending) {
-    toast.info('Sending your review');
-  }
-
   return (
-    <form className="reviews__form form" action="#" method="post" onSubmit={handleFormSumbit}>
+    <form className="reviews__form form" action="#" method="post" onSubmit={handleFormSumbit} ref={formRef}>
       <label className="reviews__label form__label" htmlFor="review">
   Your review
       </label>
@@ -68,6 +68,7 @@ export default function ReviewForm ({id} : ReviewFormProps) {
               defaultValue={key}
               id={`${key}-stars`}
               type="radio"
+              disabled={commentLoadStatus === RequestStatus.Pending}
             />
             <label
               key={`${key}Label`}
@@ -89,6 +90,7 @@ export default function ReviewForm ({id} : ReviewFormProps) {
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={commentData}
+        disabled={commentLoadStatus === RequestStatus.Pending}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">

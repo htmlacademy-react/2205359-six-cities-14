@@ -4,12 +4,16 @@ import MainNavigation from '../../components/main-navigation/main-navigation';
 import FavoritesList from '../../components/favorites-list/favorites-list';
 import { useAppSelector } from '../../hooks/redux-hooks';
 import FavoritesEmpty from '../../components/favorites-empty/favorites-empty';
-
+import cn from 'classnames';
 export default function Favorites (): JSX.Element {
   const favoriteOffers = useAppSelector((state) => state.offers.favoriteOffers);
 
+  const pageClass = cn('page', {
+    'page--favorites-empty': favoriteOffers.length <= 0
+  });
+
   return (
-    <div className="page">
+    <div className={pageClass}>
       <Helmet>
         <title>6 cities: favorites</title>
       </Helmet>

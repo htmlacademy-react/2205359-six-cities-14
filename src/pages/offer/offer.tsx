@@ -25,7 +25,7 @@ export default function Offer (): JSX.Element {
   const nearbyToShow = nearbyOffers.slice(0, 3);
   const loadingStatus = useAppSelector((state) => state.offers.isCurrentOfferDataLoading);
   const isPremium = 'Premium';
-  const getRating = (rating: number) => Math.round((rating * 100) / 5);
+  const getRating = (rating: number) => Math.round(rating) / 5 * 100;
 
   useEffect(() => {
     if (offerId) {
