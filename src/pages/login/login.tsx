@@ -1,23 +1,36 @@
 import {Helmet} from 'react-helmet-async';
 import Logo from '../../components/logo/logo';
 import {useRef, FormEvent} from 'react';
-import { useAppDispatch } from '../../hooks/redux-hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { loginAction } from '../../store/api-actions';
+import { RequestStatus } from '../../const';
+import styles from './login.module.css';
 
 export default function Login (): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
-
+  const passwordAlertRef = useRef<HTMLElement | null>(null);
+  const emailAlertRef = useRef<HTMLElement | null>(null);
   const dispatch = useAppDispatch();
+  const loginStatus = useAppSelector((state) => state.user.isLoginLoading);
+  const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/;
+  const emailRegex = /^\w+@[a-z]+\.[a-z]{2,}$/;
+
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
     if (loginRef.current !== null && passwordRef.current !== null) {
-      dispatch(loginAction({
-        login: loginRef.current.value,
-        password: passwordRef.current.value
-      }));
+      if (!passwordRegex.test(passwordRef.current.value) && passwordAlertRef.current !== null) {
+        passwordAlertRef.current.textContent = 'Пароль должен состоять минимум из одной буквы и цифры';
+      } else if (!emailRegex.test(loginRef.current.value) && emailAlertRef.current !== null) {
+        emailAlertRef.current.textContent = 'Введите правильный e-mail';
+      } else {
+        dispatch(loginAction({
+          login: loginRef.current.value,
+          password: passwordRef.current.value
+        }));
+      }
     }
   };
 
@@ -50,6 +63,7 @@ export default function Login (): JSX.Element {
                   placeholder="Email"
                   required
                 />
+                <span className={styles.alert} ref={emailAlertRef}></span>
               </div>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
@@ -61,8 +75,9 @@ export default function Login (): JSX.Element {
                   placeholder="Password"
                   required
                 />
+                <span className={styles.alert} ref={passwordAlertRef}></span>
               </div>
-              <button className="login__submit form__submit button" type="submit">
+              <button className="login__submit form__submit button" type="submit" disabled={loginStatus === RequestStatus.Pending}>
             Sign in
               </button>
             </form>

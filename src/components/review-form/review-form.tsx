@@ -2,6 +2,7 @@ import {ChangeEvent, useState, FormEvent} from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { addComment} from '../../store/api-actions';
 import { RequestStatus } from '../../const';
+import { toast } from 'react-toastify';
 
 type ReviewFormProps = {
   id: string | undefined;
@@ -46,6 +47,10 @@ export default function ReviewForm ({id} : ReviewFormProps) {
       setRating(0);
     });
   };
+
+  if(commentLoadStatus === RequestStatus.Pending) {
+    toast.info('Sending your review');
+  }
 
   return (
     <form className="reviews__form form" action="#" method="post" onSubmit={handleFormSumbit}>

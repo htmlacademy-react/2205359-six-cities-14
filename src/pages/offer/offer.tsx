@@ -14,6 +14,7 @@ import { fetchCurrentOffer, fetchOfferComments, fetchOffersNearby } from '../../
 import { useEffect } from 'react';
 import Spinner from '../../components/spinner/spinner';
 import { getCurrentOffer, getCurrentComments, getNearbyOffers } from '../../store/slices/selectors';
+import FavoriteButton from '../../components/favorite-button/favorite-button';
 
 export default function Offer (): JSX.Element {
   const dispatch = useAppDispatch();
@@ -69,12 +70,7 @@ export default function Offer (): JSX.Element {
               </div>
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">{currentOffer.title}</h1>
-                <button className="offer__bookmark-button button" type="button">
-                  <svg className="offer__bookmark-icon" width={31} height={33}>
-                    <use xlinkHref="#icon-bookmark" />
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>
+                <FavoriteButton offerId={currentOffer.id} isFavorite={currentOffer.isFavorite} isPlaceCard={false} isOfferCard/>
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">

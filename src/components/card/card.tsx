@@ -2,6 +2,7 @@ import { OfferType } from '../../types/offer-type';
 import {Link} from 'react-router-dom';
 import { AppRoute } from '../../const';
 import cn from 'classnames';
+import FavoriteButton from '../favorite-button/favorite-button';
 
 type CardProps = {
   offer: OfferType;
@@ -35,10 +36,6 @@ export default function Card ({offer, onCardHover, isMainPage = true, isFavorite
     'favorites__image-wrapper': isFavoritesPage,
   });
 
-  const favBtnClass = cn('place-card__bookmark-button', 'button', {
-    'place-card__bookmark-button--active': offer.isFavorite,
-  });
-
   return (
     <article
       className={cardClass}
@@ -65,7 +62,8 @@ export default function Card ({offer, onCardHover, isMainPage = true, isFavorite
             <b className="place-card__price-value">{`€${offer.price}`}</b>
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
-          <button
+          <FavoriteButton offerId={offer.id} isFavorite={offer.isFavorite}/>
+          {/* <button
             className={favBtnClass}
             type="button"
           >
@@ -77,7 +75,7 @@ export default function Card ({offer, onCardHover, isMainPage = true, isFavorite
               <use xlinkHref="#icon-bookmark" />
             </svg>
             <span className="visually-hidden">To bookmarks</span>
-          </button>
+          </button> */}
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">

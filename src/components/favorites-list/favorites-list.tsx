@@ -1,5 +1,8 @@
 import Card from '../card/card';
 import { OfferType } from '../../types/offer-type';
+import { useAppSelector } from '../../hooks/redux-hooks';
+import Spinner from '../spinner/spinner';
+import { RequestStatus } from '../../const';
 
 type FavoritesListProps = {
   favoriteOffers: OfferType[];
@@ -13,6 +16,13 @@ export default function FavoritesList({favoriteOffers} : FavoritesListProps) {
     acc[offer.city.name].push(offer);
     return acc;
   }, {});
+  const loadingStatus = useAppSelector((state) => state.offers.isFavoriteDataLoading);
+
+  if (loadingStatus === RequestStatus.Idle || loadingStatus === RequestStatus.Pending) {
+    return (
+      <Spinner />
+    );
+  }
 
   return (
     <main className="page__main page__main--favorites">

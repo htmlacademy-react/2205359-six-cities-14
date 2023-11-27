@@ -10,7 +10,9 @@ import { useLocation } from 'react-router-dom';
 import { DEFAULT_CITY } from '../../const';
 import { citySlice } from '../../store/slices/city';
 import { getCurrentCityOffers, getSortingOption } from '../../store/slices/selectors';
+import { fetchOffers } from '../../store/api-actions';
 import MainEmpty from '../../components/main-empty/main-empty';
+import Spinner from '../../components/spinner/spinner';
 
 export default function MainPage (): JSX.Element {
   const navigate = useNavigate();
@@ -18,6 +20,12 @@ export default function MainPage (): JSX.Element {
   const currentCityOffers : OfferType[] = useAppSelector(getCurrentCityOffers);
   const location = useLocation().pathname.slice(1);
   const dispatch = useAppDispatch();
+  const isOffersDataLoading = useAppSelector((state) => state.offers.isOffersDataLoading);
+
+  useEffect(() => {
+    dispatch(fetchOffers());
+  }, [dispatch]);
+
 
   useEffect(() => {
     dispatch(citySlice.actions.changeCity(location));
@@ -29,12 +37,19 @@ export default function MainPage (): JSX.Element {
     }
   }, [location, navigate]);
 
+  if (isOffersDataLoading) {
+    return (
+      <Spinner />
+    );
+  }
+
   const sortingVariants : {[key:string]: OfferType[]} = {
     'Popular': currentCityOffers,
     'Price: low to high': [...currentCityOffers].sort((a, b) => a.price - b.price),
     'Price: high to low': [...currentCityOffers].sort((a, b) => b.price - a.price),
     'Top rated first': [...currentCityOffers].sort((a, b) => b.rating - a.rating),
   };
+
   const sortedOffers = sortingVariants[currentSortOption];
 
   return (
