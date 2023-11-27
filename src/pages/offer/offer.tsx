@@ -15,6 +15,7 @@ import { useEffect } from 'react';
 import Spinner from '../../components/spinner/spinner';
 import { getCurrentOffer, getCurrentComments, getNearbyOffers } from '../../store/slices/selectors';
 import FavoriteButton from '../../components/favorite-button/favorite-button';
+import cn from 'classnames';
 
 export default function Offer (): JSX.Element {
   const dispatch = useAppDispatch();
@@ -41,6 +42,10 @@ export default function Offer (): JSX.Element {
     );
   }
 
+  const offerAvatarWrapperClass = cn('offer__avatar-wrapper', 'user__avatar-wrapper', {
+    'offer__avatar-wrapper--pro ' : currentOffer.host.isPro,
+  });
+
   return (
     <div className="page">
       <Helmet>
@@ -60,7 +65,7 @@ export default function Offer (): JSX.Element {
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              {currentOffer.images.map((image : string) => <OfferImage image={image} key={`${currentOffer.id}${image}`}/>)}
+              {currentOffer.images.slice(0, 6).map((image : string) => <OfferImage image={image} key={`${currentOffer.id}${image}`}/>)}
             </div>
           </div>
           <div className="offer__container container">
@@ -97,7 +102,7 @@ export default function Offer (): JSX.Element {
               <div className="offer__host">
                 <h2 className="offer__host-title">Meet the host</h2>
                 <div className="offer__host-user user">
-                  <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
+                  <div className={offerAvatarWrapperClass}>
                     <img
                       className="offer__avatar user__avatar"
                       src={currentOffer.host.avatarUrl}
@@ -107,7 +112,7 @@ export default function Offer (): JSX.Element {
                     />
                   </div>
                   <span className="offer__user-name">{currentOffer.host.name}</span>
-                  <span className="offer__user-status">{currentOffer.host.isPro}</span>
+                  {currentOffer.host.isPro && <span className="offer__user-status">Pro</span>}
                 </div>
                 <div className="offer__description">
                   <p className="offer__text">{currentOffer.title}</p>
