@@ -3,7 +3,6 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { addComment} from '../../store/api-actions';
 import { RequestStatus } from '../../const';
 import { toast } from 'react-toastify';
-import Spinner from '../spinner/spinner';
 
 type ReviewFormProps = {
   id: string | undefined;
@@ -21,12 +20,12 @@ const Rating = {
 
 export default function ReviewForm ({id} : ReviewFormProps) {
   const dispatch = useAppDispatch();
-  const [commentData, setComment] = useState('');
-  const [ratingData, setRating] = useState(0);
+  const [comment, setComment] = useState('');
+  const [rating, setRating] = useState(0);
   const isValid =
-    commentData.length >= MIN_COMMENT_LENGTH &&
-    commentData.length <= MAX_COMMENT_LENGTH &&
-    ratingData;
+    comment.length >= MIN_COMMENT_LENGTH &&
+    comment.length <= MAX_COMMENT_LENGTH &&
+    rating;
   const commentLoadStatus = useAppSelector((state) => state.offers.isCommentLoading);
   const handleTextareaChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
     setComment(evt.target.value);
@@ -41,24 +40,17 @@ export default function ReviewForm ({id} : ReviewFormProps) {
     evt.preventDefault();
     const userComment = {
       offerId: id,
-      comment: commentData,
-      rating: ratingData,
+      comment,
+      rating,
     };
-    dispatch(addComment(userComment)).then(() => {
-      if (commentLoadStatus === RequestStatus.Pending) {
-        return <Spinner />;
-      }
-      if (commentLoadStatus === RequestStatus.Fulfilled) {
+    dispatch(addComment(userComment)).unwrap()
+      .then(() => {
         setComment('');
         setRating(0);
-        if (formRef.current) {
-          formRef.current.reset();
-        }
-      }
-      if (commentLoadStatus === RequestStatus.Rejected) {
-        toast.error('Failed to send a review, please, try again');
-      }
-    });
+      })
+      .catch(() => {
+        toast.error('Failed to send a review. Please try again');
+      });
   };
 
   return (
@@ -74,7 +66,8 @@ export default function ReviewForm ({id} : ReviewFormProps) {
               onChange={handleRatingChange}
               className="form__rating-input visually-hidden"
               name="rating"
-              defaultValue={key}
+              value={key}
+              checked = {key === rating.toString()}
               id={`${key}-stars`}
               type="radio"
               disabled={commentLoadStatus === RequestStatus.Pending }
@@ -98,7 +91,7 @@ export default function ReviewForm ({id} : ReviewFormProps) {
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        value={commentData}
+        value={comment}
         disabled={commentLoadStatus === RequestStatus.Pending}
       />
       <div className="reviews__button-wrapper">
